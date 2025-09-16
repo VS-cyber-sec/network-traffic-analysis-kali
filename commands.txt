@@ -1,0 +1,14 @@
+sudo apt update && sudo apt upgrade -y
+sudo apt install ufw fail2ban openssh-server tcpdump wireshark -y
+sudo systemctl start ssh
+sudo systemctl enable ssh
+sudo ufw allow ssh
+sudo ufw enable
+sudo ufw status verbose
+sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+sudo nano /etc/fail2ban/jail.local  # edit to enable sshd section
+sudo systemctl restart fail2ban
+sudo fail2ban-client status sshd
+sudo tail -f /var/log/ufw.log
+sudo tcpdump -i any port 22 -w captures/ssh_traffic.pcap
+sudo wireshark captures/ssh_traffic.pcap
